@@ -1,37 +1,28 @@
-import { NodeSwapper } from './swapNodesInPairs';
+import { swapPairs } from './swapNodesInPairs';
 import { ListNode } from '../common/ListNode';
 
-describe('swapNodesInPairs', () => {
+describe('swapPairs', () => {
+  // edge cases
   it('should handle an empty list', () => {
-    const swapper = new NodeSwapper();
-    expect(swapper.swapPairs(null)).toEqual(null);
+    expect(swapPairs(null)).toEqual(null);
   });
 
-  it('should handle a list with one node', () => {
-    const swapper = new NodeSwapper();
-    expect(swapper.swapPairs({ val: 1, next: null })).toEqual({ val: 1, next: null });
+  it('should handle a list with a single element', () => {
+    const head = new ListNode(1);
+    const newHead = swapPairs(head);
+    expect(newHead).toEqual(head);
   });
 
-  it('should handle a list with two nodes', () => {
-    testList([1, 2], [2, 1]);
+  // normal cases
+  it('should handle a list with four elements', () => {
+    const head = ListNode.fromArray([1, 2, 3, 4]);
+    const newHead = swapPairs(head);
+    expect(ListNode.toArray(newHead)).toEqual([2, 1, 4, 3]);
   });
 
-  it('should handle a list with three nodes', () => {
-    testList([1, 2, 3], [2, 1, 3]);
-  });
-
-  it('should handle a list with four nodes', () => {
-    testList([1, 2, 3, 4], [2, 1, 4, 3]);
-  });
-
-  it('should handle a list with five nodes', () => {
-    testList([1, 2, 3, 4, 5], [2, 1, 4, 3, 5]);
+  it('should handle a list with five elements', () => {
+    const head = ListNode.fromArray([1, 2, 3, 4, 5]);
+    const newHead = swapPairs(head);
+    expect(ListNode.toArray(newHead)).toEqual([2, 1, 4, 3, 5]);
   });
 });
-
-function testList(input: number[], expected: number[]) {
-  const head = ListNode.fromArray(input);
-  const swapper = new NodeSwapper();
-  const newHead = swapper.swapPairs(head);
-  expect(ListNode.toArray(newHead)).toEqual(expected);
-}

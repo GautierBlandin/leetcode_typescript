@@ -1,23 +1,25 @@
 import { ListNode } from '../common/ListNode';
 
+export function swapPairs(head: ListNode | null): ListNode | null {
+  const swapper = new NodeSwapper();
+  return swapper.swapPairs(head);
+}
+
 export class NodeSwapper {
   public swapPairs(head: ListNode | null): ListNode | null {
-    if (head === null) {
-      return null;
-    }
-    const start = new ListNode(-1, head);
+    if (head === null) return head;
+
+    const start = { next: head } as ListNode;
     let current = start;
 
     while (current.next && current.next.next) {
-      const prev = current;
+      const left = current;
       const mid = current.next;
-      // eslint-disable-next-line
-      const next = current.next.next;
-      const nextNext = current.next.next.next;
+      const right = current.next.next;
 
-      prev.next = next;
-      next.next = mid;
-      mid.next = nextNext;
+      left.next = right;
+      mid.next = right.next;
+      right.next = mid;
 
       current = mid;
     }
