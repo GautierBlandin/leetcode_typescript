@@ -22,4 +22,8 @@ describe('coinChange', () => {
   it('should work on null example', () => {
     expect(coinChange([1], 0)).toEqual(0);
   });
+
+  it('should work on first failed test', () => {
+    expect(coinChange([1, 2, 5], 100)).toEqual(20);
+  });
 });
