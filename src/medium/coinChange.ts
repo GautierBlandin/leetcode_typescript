@@ -1,4 +1,4 @@
-export function coinChange(coins: number[], amount: number): number {
+export function coinChangeDP(coins: number[], amount: number): number {
   const cache: number[] = new Array(amount);
   cache[0] = 0;
 
@@ -19,15 +19,15 @@ export function coinChange(coins: number[], amount: number): number {
   return cache[amount];
 }
 
-export function coinChangeWithRecursion(coins: number[], amount: number): number {
-  const cache = new Map<number, number>();
-  cache.set(0, 0);
+export function coinChange(coins: number[], amount: number): number {
+  const cache: number[] = new Array(amount).fill(undefined);
+  cache[0] = 0;
 
   return coinChangeRecursive(amount);
 
   function coinChangeRecursive(subAmount: number): number {
-    if (cache.get(subAmount) !== undefined) {
-      return cache.get(subAmount) as number;
+    if (cache[subAmount] !== undefined) {
+      return cache[subAmount];
     }
 
     const subValues = [];
@@ -41,12 +41,12 @@ export function coinChangeWithRecursion(coins: number[], amount: number): number
     }
 
     if (subValues.length === 0) {
-      cache.set(subAmount, -1);
+      cache[subAmount] = -1;
       return -1;
     }
 
     const result = Math.min(...subValues);
-    cache.set(subAmount, result);
+    cache[subAmount] = result;
     return result;
   }
 }
