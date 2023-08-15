@@ -1,23 +1,20 @@
 export function coinChange(coins: number[], amount: number): number {
-  if (amount < 0) {
-    return -1;
-  }
+  const cache: number[] = new Array(amount);
+  cache[0] = 0;
 
-  if (amount === 0) {
-    return 0;
-  }
-
-  const subValues = [];
-  for (const coinValue of coins) {
-    const subValue = coinChange(coins, amount - coinValue);
-    if (subValue !== -1) {
-      subValues.push(subValue + 1);
+  for (let subAmount = 1; subAmount <= amount; subAmount++) {
+    const subCoinAmounts = [];
+    for (const coinValue of coins) {
+      if (subAmount - coinValue >= 0 && cache[subAmount - coinValue] !== -1) {
+        subCoinAmounts.push(cache[subAmount - coinValue]);
+      }
+    }
+    if (subCoinAmounts.length === 0) {
+      cache[subAmount] = -1;
+    } else {
+      const minSubAmount = Math.min(...subCoinAmounts);
+      cache[subAmount] = minSubAmount + 1;
     }
   }
-
-  if (subValues.length === 0) {
-    return -1;
-  }
-
-  return Math.min(...subValues);
+  return cache[amount];
 }
