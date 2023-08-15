@@ -18,3 +18,35 @@ export function coinChange(coins: number[], amount: number): number {
   }
   return cache[amount];
 }
+
+export function coinChangeWithRecursion(coins: number[], amount: number): number {
+  const cache = new Map<number, number>();
+  cache.set(0, 0);
+
+  return coinChangeRecursive(amount);
+
+  function coinChangeRecursive(subAmount: number): number {
+    if (cache.get(subAmount) !== undefined) {
+      return cache.get(subAmount) as number;
+    }
+
+    const subValues = [];
+    for (const coinValue of coins) {
+      if (subAmount - coinValue >= 0) {
+        const subCoinAmount = coinChangeRecursive(subAmount - coinValue);
+        if (subCoinAmount !== -1) {
+          subValues.push(subCoinAmount + 1);
+        }
+      }
+    }
+
+    if (subValues.length === 0) {
+      cache.set(subAmount, -1);
+      return -1;
+    }
+
+    const result = Math.min(...subValues);
+    cache.set(subAmount, result);
+    return result;
+  }
+}
