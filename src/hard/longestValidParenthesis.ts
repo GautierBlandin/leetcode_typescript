@@ -25,7 +25,7 @@
  * s[i] is '(', or ')'.
  */
 
-export function longestValidParenthesis(s: string) {
+export function longestValidParenthesisObject(s: string) {
   const forwardLongestValid = forwardLongestValidParenthesis(s);
   const backwardLongestValid = forwardLongestValidParenthesis(reverseParenthesis(s));
 
@@ -48,6 +48,9 @@ function forwardLongestValidParenthesis(s: string) {
       if (stack > 0) {
         stack -= 1;
         currentValidLength += 1;
+        if (stack === 0) {
+          maxValidLength = Math.max(maxValidLength, currentValidLength);
+        }
       } else if (stack === 0) {
         maxValidLength = Math.max(maxValidLength, currentValidLength);
         currentValidLength = 0;
