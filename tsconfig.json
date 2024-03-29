@@ -4,6 +4,7 @@
     "moduleResolution": "node",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "noEmitOnError": false,
     "removeComments": true,
     "skipLibCheck": true,
     "sourceMap": true,
