@@ -36,4 +36,8 @@ describe('wildcardMatching', () => {
   it('should match failed test', () => {
     expect(isMatch('adceb', '*a*b')).toBe(true);
   });
+
+  it('should match failed test 2', () => {
+    expect(isMatch('babaaababaabababbbbbbaabaabbabababbaababbaaabbbaaab', '***bba**a*bbba**aab**b')).toBe(true);
+  });
 });
