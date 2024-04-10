@@ -20,18 +20,17 @@ function isMatchRecursive(s: string, p: string, i: number, j: number, matchMap: 
     return memoize(isMatchRecursive(s, p, i, j + 1, matchMap), i, j, matchMap);
   }
 
-  if (!matchSingleCharacter(s[i], p[j])) return memoize(false, i, j, matchMap);
-
   if (p[j] === '*') {
     return memoize(
-      isMatchRecursive(s, p, i + 1, j + 1, matchMap)
-      || isMatchRecursive(s, p, i + 1, j, matchMap)
+      isMatchRecursive(s, p, i + 1, j, matchMap)
       || isMatchRecursive(s, p, i, j + 1, matchMap),
       i,
       j,
       matchMap,
     );
   }
+
+  if (!matchSingleCharacter(s[i], p[j])) return memoize(false, i, j, matchMap);
 
   return memoize(
     isMatchRecursive(s, p, i + 1, j + 1, matchMap),
@@ -47,5 +46,5 @@ function memoize(result: boolean, i: number, j: number, matchMap: Map<string, bo
 }
 
 function matchSingleCharacter(c: string, pc: string): boolean {
-  return c === pc || pc === '?' || pc === '*';
+  return c === pc || pc === '?';
 }
