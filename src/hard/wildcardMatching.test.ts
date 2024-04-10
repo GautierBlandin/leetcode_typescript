@@ -38,6 +38,6 @@ describe('wildcardMatching', () => {
   });
 
   it('should match failed test 2', () => {
-    expect(isMatch('babaaababaabababbbbbbaabaabbabababbaababbaaabbbaaab', '***bba**a*bbba**aab**b')).toBe(true);
+    expect(isMatch('babaaababaabababbbbbbaabaabbabababbaababbaaabbbaaab', '***bba**a*bbba**aab**b')).toBe(false);
   });
 });
