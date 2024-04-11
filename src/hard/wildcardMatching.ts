@@ -1,4 +1,4 @@
-export function isMatch(s: string, p: string): boolean {
+export function isMatchRec(s: string, p: string): boolean {
   const matchMap = new Map<string, boolean>();
 
   return isMatchRecursive(s, p, 0, 0, matchMap);
@@ -45,6 +45,79 @@ function memoize(result: boolean, i: number, j: number, matchMap: Map<string, bo
   return result;
 }
 
+export function isMatch(s: string, p: string): boolean {
+  const dpTable: (boolean | undefined)[][] = new Array(s.length + 1).fill(undefined).map(() => new Array(p.length + 1).fill(undefined));
+  dpTable[0][0] = true;
+
+  for (let i = 0; i <= s.length; i++) {
+    for (let j = 0; j <= p.length; j++) {
+      if (i === 0 && j === 0) {
+        continue;
+      }
+
+      // i >= 1 || j >= 1
+      if (j === 0) {
+        dpTable[i][j] = false;
+        continue;
+      }
+
+      // j >= 1
+      if (i === 0) {
+        if (p[j - 1] !== '*') {
+          dpTable[i][j] = false;
+          continue;
+        } else {
+          dpTable[i][j] = dpTable[i][j - 1];
+          continue;
+        }
+      }
+
+      // j >= 1 && i >= 1
+      if (p[j - 1] !== '*') {
+        dpTable[i][j] = matchSingleCharacter(s[i - 1], p[j - 1]) && dpTable[i - 1][j - 1];
+        continue;
+      }
+
+      // p[j - 1] === '*'
+      dpTable[i][j] = dpTable[i - 1][j] || dpTable[i][j - 1];
+    }
+  }
+
+  const result = dpTable[s.length][p.length];
+  if (result === undefined) throw new Error('bug while iterating');
+  return result;
+}
+
 function matchSingleCharacter(c: string, pc: string): boolean {
   return c === pc || pc === '?';
+}
+
+export function isMatchGreedy(s: string, p: string): boolean {
+  let sIndex = 0;
+  let pIndex = 0;
+  let starIndex = -1;
+  let matchIndex = 0;
+
+  while (sIndex < s.length) {
+    if (pIndex < p.length && (p[pIndex] === '?' || p[pIndex] === s[sIndex])) {
+      sIndex++;
+      pIndex++;
+    } else if (pIndex < p.length && p[pIndex] === '*') {
+      starIndex = pIndex;
+      matchIndex = sIndex;
+      pIndex++;
+    } else if (starIndex !== -1) {
+      pIndex = starIndex + 1;
+      matchIndex++;
+      sIndex = matchIndex;
+    } else {
+      return false;
+    }
+  }
+
+  while (pIndex < p.length && p[pIndex] === '*') {
+    pIndex++;
+  }
+
+  return pIndex === p.length;
 }
