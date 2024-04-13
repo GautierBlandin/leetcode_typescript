@@ -47,6 +47,8 @@ function memoize(result: boolean, i: number, j: number, matchMap: Map<string, bo
 
 export function isMatch(s: string, p: string): boolean {
   const dpTable: (boolean | undefined)[][] = new Array(s.length + 1).fill(undefined).map(() => new Array(p.length + 1).fill(undefined));
+
+  // Represent empty string with empty pattern
   dpTable[0][0] = true;
 
   for (let i = 0; i <= s.length; i++) {
