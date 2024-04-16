@@ -9,6 +9,7 @@
   "extends": ["airbnb-base"],
   "rules": {
     "no-continue": "off",
+    "no-param-reassign": "off",
     "import/prefer-default-export": "off",
     "class-methods-use-this": "off",
     "no-console": "off",
