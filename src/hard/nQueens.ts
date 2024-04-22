@@ -22,7 +22,7 @@ type Context = {
  * @param minIndex min index for placing the next queen in flattened coordinate
  * @param context recursive context to pass along
  */
-export function nQueensRecursive(minIndex: number, context: Context) {
+function nQueensRecursive(minIndex: number, context: Context) {
   const n = context.currentBoard.length;
   for (let i = minIndex; i < n * n; i += 1) {
     const row = Math.floor(i / n);
