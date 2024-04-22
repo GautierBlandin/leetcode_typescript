@@ -19,7 +19,6 @@ type Context = {
 
 /**
  *
- * @param currentBoard
  * @param minIndex min index for placing the next queen in flattened coordinate
  * @param context recursive context to pass along
  */
