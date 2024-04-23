@@ -12,6 +12,7 @@ export function maxSubArrayDivideAndConquer(nums: number[]): number {
 function maxSubArrayRecursive(start: number, end: number, nums: number[]): number {
   // Approach: find the maximum subarray in the left, the right, and the middle, and return the maximum
   // of the three.
+
   // Base case where the subarray is of length 1
   if ((end - start) === 1) {
     return nums[start];
