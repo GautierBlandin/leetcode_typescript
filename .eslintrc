@@ -24,7 +24,8 @@
     "no-plusplus": "off",
     "no-restricted-syntax": [
       "error", "ForInStatement", "LabeledStatement", "WithStatement"
-    ]
+    ],
+    "prefer-destructuring": "off"
   },
   "overrides": [
     {
@@ -38,7 +39,7 @@
       },
       "rules": {
         "@typescript-eslint/no-floating-promises": ["error"],
-        "@typescript-eslint/no-use-before-define": "off"
+        "@typescript-eslint/no-use-before-define": "off",
       }
     },
     {
@@ -46,7 +47,7 @@
       "rules": {
         "max-classes-per-file": "off",
         "class-methods-use-this": "off",
-        "no-useless-escape": "off"
+        "no-useless-escape": "off",
       }
     }
   ]
