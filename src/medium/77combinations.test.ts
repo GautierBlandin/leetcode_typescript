@@ -8,6 +8,7 @@ describe('combinations', () => {
     [[2, 2], [[1, 2]]],
     [[2, 1], [[1], [2]]],
     [[3, 1], [[1], [2], [3]]],
+    [[3, 3], [[1, 2, 3]]],
   ])('should work', (input, expected) => {
     expect(combine(input[0], input[1])).toEqual(expected);
   });
