@@ -2,7 +2,7 @@ import type { Config } from '@jest/types';
 
 const config: Config.InitialOptions = {
   transform: {
-    '^.+\\.tsx?$': 'esbuild-jest',
+    '^.+\\.tsx?$': 'ts-jest',
   },
   testPathIgnorePatterns: [],
 };
