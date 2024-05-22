@@ -7,6 +7,7 @@
     "jest/globals": true
   },
   "extends": ["airbnb-base"],
+  "ignorePatterns": ["jest.config.ts"],
   "rules": {
     "no-continue": "off",
     "no-param-reassign": "off",
