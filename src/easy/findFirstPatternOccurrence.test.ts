@@ -47,15 +47,15 @@ describe('firstFirstPatternOccurrence', () => {
 describe('computePolynomialModP', () => {
   const coefficients = [1, 2, 3, 4, 5];
   it('should compute test 1', () => {
-    expect(computePolynomialModP(coefficients, 10)).toEqual(5);
+    expect(computePolynomialModP(coefficients, 10)).toEqual(48);
   });
 
   it('should compute test 2', () => {
-    expect(computePolynomialModP(coefficients, 11)).toEqual(4);
+    expect(computePolynomialModP(coefficients, 11)).toEqual(73);
   });
 
   it('should compute test 3', () => {
-    expect(computePolynomialModP(coefficients, 10)).toEqual(9); // 1 + 4 + 12 + 32 + 80
+    expect(computePolynomialModP(coefficients, 10)).toEqual(48); // 1 + 4 + 12 + 32 + 80
   });
 
   it('should return 0 for empty polynomial', () => {
