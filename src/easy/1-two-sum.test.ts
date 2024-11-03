@@ -7,27 +7,13 @@
 
 export function twoSum(nums: number[], target: number): [number, number] {
   // Index the array
-  const indexedArray: Map<number, number[]> = new Map();
+  const indexedArray: Map<number, number> = new Map();
 
-  nums.forEach((value, index) => {
-    if (indexedArray.has(value)) {
-      indexedArray.get(value)!.push(index);
-    } else {
-      indexedArray.set(value, [index]);
-    }
-  });
-
-  // Iterate again over the array and try to find the target
   for (let i = 0; i < nums.length; i += 1) {
-    const adjustedTarget = target - nums[i];
-    if (indexedArray.has(adjustedTarget)) {
-      const possibleSecondIndexes = indexedArray.get(adjustedTarget)!;
-      for (let j = 0; j < possibleSecondIndexes.length; j += 1) {
-        if (possibleSecondIndexes[j] !== i) {
-          return [i, possibleSecondIndexes[j]];
-        }
-      }
+    if (indexedArray.has(target - nums[i])) {
+      return [indexedArray.get(target - nums[i])!, i];
     }
+    indexedArray.set(nums[i], i);
   }
 
   throw new Error('Target not found');
