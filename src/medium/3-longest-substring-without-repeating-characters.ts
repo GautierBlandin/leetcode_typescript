@@ -4,16 +4,20 @@ export function lengthOfLongestSubstring(s: string): number {
 
   let left = 0;
   let right = 1;
+  // Because the string is at least of length 2, there is always at least one distinct character
   let maxLength = 1;
-  const chars: Set<string> = new Set([s[0]]);
+  const charSet: Set<string> = new Set([s[0]]);
 
   while (right < s.length) {
-    if (!chars.has(s[right])) {
+    // If the char at right is a new character, append it to the char set and update max length if applicable
+    if (!charSet.has(s[right])) {
       maxLength = Math.max(maxLength, right - left + 1);
-      chars.add(s[right]);
+      charSet.add(s[right]);
     } else {
+      // Otherwise, delete chars from the char set until the left pointer reaches the duplicate
+      // Then, increment the left pointer again the leave it right after the duplicate
       while (s[left] !== s[right]) {
-        chars.delete(s[left]);
+        charSet.delete(s[left]);
         left += 1;
       }
       left += 1;
