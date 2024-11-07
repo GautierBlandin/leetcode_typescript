@@ -1,66 +1,30 @@
-// Expand Around Center approach. Validated against the test suite & LC tests
+// Dynamic programming approach
 function longestPalindrome(s: string): string {
-  // Expand around center approach
-  let maxPalindrome = '';
+  // Table to represent the palindromes.
+  // If dbTable[i][j] is true, then s.slice(i, j) is a palindrome
+  const dpTable: boolean[][] = new Array(s.length + 1).fill(0).map(() => new Array(s.length + 1).fill(false));
 
-  // single-center palindrome
-  for (let startPosition = 0; startPosition < s.length; startPosition += 1) {
-    let expandInterval = 0;
+  let maxPalindrome: string = '';
 
-    while (
-      startPosition - expandInterval - 1 >= 0
-    && startPosition + expandInterval + 1 < s.length
-    && s[startPosition - expandInterval - 1] === s[startPosition + expandInterval + 1]
-    ) {
-      expandInterval += 1;
-    }
+  for (let i = s.length; i >= 0; i -= 1) {
+    for (let j = i; j < s.length + 1; j += 1) {
+      // s.slice(i, j) is a palindrome if:
+      // - s[i] and s[j] are equal AND s.slice(i + 1, j - 1) is a palindrome OR
+      // - i and j are equal (empty string) OR
+      // - i and j differ by 1 (single-char string)
+      if (j - i <= 1) {
+        dpTable[i][j] = true;
+      } else if (dpTable[i + 1][j - 1] && s[i] === s[j - 1]) {
+        dpTable[i][j] = true;
+      }
 
-    if (maxPalindrome.length < (1 + 2 * (expandInterval))) {
-      maxPalindrome = s.slice(startPosition - expandInterval, startPosition + expandInterval + 1);
-    }
-  }
-
-  // bi-center palindrome
-  for (let startPosition = 0; startPosition < s.length; startPosition += 1) {
-    let expandInterval = 0;
-
-    while (
-      startPosition - expandInterval - 1 >= 0
-      && startPosition + expandInterval < s.length
-      && s[startPosition - expandInterval - 1] === s[startPosition + expandInterval]
-    ) {
-      expandInterval += 1;
-    }
-
-    if (maxPalindrome.length < (2 * (expandInterval))) {
-      maxPalindrome = s.slice(startPosition - expandInterval, startPosition + expandInterval);
-    }
-  }
-
-  return maxPalindrome;
-}
-
-// Brute-force approach. Validated against the test suite & LC test
-function longestPalindromeBruteForce(s: string): string {
-  let maxPalindrome = '';
-
-  for (let i = 0; i < s.length; i += 1) {
-    for (let j = i + 1; j < s.length + 1; j += 1) {
-      const sub = s.slice(i, j);
-      if (sub.length > maxPalindrome.length && isPalindrome(sub)) {
-        maxPalindrome = sub;
+      if (dpTable[i][j] && j - i + 1 > maxPalindrome.length) {
+        maxPalindrome = s.slice(i, j);
       }
     }
   }
 
   return maxPalindrome;
-}
-
-function isPalindrome(s: string): boolean {
-  for (let i = 0; i < Math.floor(s.length / 2); i += 1) {
-    if (s[i] !== s[s.length - i - 1]) return false;
-  }
-  return true;
 }
 
 describe('longestPalindrome', () => {
@@ -86,31 +50,5 @@ describe('longestPalindrome', () => {
 
   it('returns a single letter when there there is no palindrome', () => {
     expect(['a', 'b', 'c', 'd', 'e', 'f', 'g']).toContain(longestPalindrome('abcdefg'));
-  });
-});
-
-describe('isPalindrome', () => {
-  it('works', () => {
-    expect(isPalindrome('a')).toBe(true);
-  });
-
-  it('worls 2', () => {
-    expect(isPalindrome('aa')).toBe(true);
-  });
-
-  it('works 3', () => {
-    expect(isPalindrome('aba')).toBe(true);
-  });
-
-  it('works 4', () => {
-    expect(isPalindrome('abba')).toBe(true);
-  });
-
-  it('works 5', () => {
-    expect(isPalindrome('abab')).toBe(false);
-  });
-
-  it('works 6', () => {
-    expect(isPalindrome('acda')).toBe(false);
   });
 });
