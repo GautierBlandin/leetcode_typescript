@@ -1,5 +1,34 @@
+// Dynamic programming approach
+function longestPalindromeDP(s: string): string {
+  // Table to represent the palindromes.
+  // If dbTable[i][j] is true, then s.slice(i, j) is a palindrome
+  const dpTable: boolean[][] = new Array(s.length + 1).fill(0).map(() => new Array(s.length + 1).fill(false));
+
+  let maxPalindrome: string = '';
+
+  for (let i = s.length; i >= 0; i -= 1) {
+    for (let j = i; j < s.length + 1; j += 1) {
+      // s.slice(i, j) is a palindrome if:
+      // - s[i] and s[j] are equal AND s.slice(i + 1, j - 1) is a palindrome OR
+      // - i and j are equal (empty string) OR
+      // - i and j differ by 1 (single-char string)
+      if (j - i <= 1) {
+        dpTable[i][j] = true;
+      } else if (dpTable[i + 1][j - 1] && s[i] === s[j - 1]) {
+        dpTable[i][j] = true;
+      }
+
+      if (dpTable[i][j] && j - i + 1 > maxPalindrome.length) {
+        maxPalindrome = s.slice(i, j);
+      }
+    }
+  }
+
+  return maxPalindrome;
+}
+
 // Expand Around Center approach. Validated against the test suite & LC tests
-function longestPalindromeEAC(s: string): string {
+export function longestPalindrome(s: string): string {
   // Expand around center approach
   let maxPalindrome = '';
 
