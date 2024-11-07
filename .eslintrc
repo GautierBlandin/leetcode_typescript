@@ -39,7 +39,7 @@
         "project": ["./tsconfig.json"]
       },
       "rules": {
-        "@typescript-eslint/no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": "warn",
         "@typescript-eslint/no-floating-promises": ["error"],
         "@typescript-eslint/no-use-before-define": "off"
       }
