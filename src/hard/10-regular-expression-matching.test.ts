@@ -1,3 +1,29 @@
+export function isMatch(s: string, p: string): boolean {
+  /*
+   * dpTable[i][j] is true if s.slice(i) matches p.slice(j)
+   * The overall match is true if at the end of the algorithm, dpTable[s.length][p.length] is true
+   */
+  const dpTable: boolean[][] = new Array(s.length + 1).fill(0).map(() => new Array(p.length + 1).fill(false));
+
+  for (let i = 0; i < s.length + 1; i += 1) {
+    for (let j = 0; j < p.length + 1; j += 1) {
+      if (i === 0 && j === 0) {
+        dpTable[i][j] = true;
+      } else if (j === 0) {
+        dpTable[i][j] = false;
+      } else if (i === 0) {
+        dpTable[i][j] = dpTable[i][j - 1] && p[j - 1] === '*';
+      } else if (p[j - 1] === '*') {
+        dpTable[i][j] = dpTable[i - 1][j] || dpTable[i][j - 1];
+      } else {
+        dpTable[i][j] = singleCharMatcher(s[i - 1], p[j - 1]) && dpTable[i - 1][j - 1];
+      }
+    }
+  }
+
+  return dpTable[s.length][p.length];
+}
+
 export function isMatchBruteForce(s: string, p: string): boolean {
   if (s.length === 0) {
     return p.length === 0 || (p[0] === '*' && isMatchBruteForce(s, p.slice(1)));
