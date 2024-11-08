@@ -1,5 +1,19 @@
-export function isMatch(s: string, p: string): boolean {
+export function isMatchBruteForce(s: string, p: string): boolean {
+  if (s.length === 0) {
+    return p.length === 0 || (p[0] === '*' && isMatchBruteForce(s, p.slice(1)));
+  }
 
+  if (p.length === 0) return false;
+
+  if (p[0] === '*') {
+    return isMatchBruteForce(s.slice(1), p) || isMatchBruteForce(s, p.slice(1));
+  }
+
+  return (singleCharMatcher(s[0], p[0]) && isMatchBruteForce(s.slice(1), p.slice(1)));
+}
+
+function singleCharMatcher(c: string, pc: string): boolean {
+  return (c === pc || pc === '.' || pc === '*');
 }
 
 describe('isMatch', () => {
