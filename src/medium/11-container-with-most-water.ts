@@ -1,4 +1,4 @@
-function maxAreaBruteForce(heights: number[]): number {
+export function maxAreaBruteForce(heights: number[]): number {
   // Brute force approach
   // We are going to go through every possible combination of two pillars.
   // For each combination, we will compute the area it would result in, while keeping track of the
