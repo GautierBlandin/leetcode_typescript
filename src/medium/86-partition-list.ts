@@ -1,38 +1,26 @@
 import { ListNode } from '../common/ListNode';
 
 export function partition(head: ListNode | null, x: number): ListNode | null {
-  // New implementation idea:
-  // Create a left linked list and a right linked list, merging them at the end
+  const leftDummy = new ListNode(0);
+  const rightDummy = new ListNode(0);
+  let leftTail: ListNode = leftDummy;
+  let rightTail: ListNode = rightDummy;
 
-  if (!head) return null;
-
-  let leftPartitionStart: ListNode | null = null;
-  let leftPartitionEnd: ListNode | null = null;
-  let rightPartitionStart: ListNode | null = null;
-  let rightPartitionEnd: ListNode | null = null;
-
-  let cur: ListNode | null = head;
+  let cur = head;
 
   while (cur) {
     if (cur.val < x) {
-      if (!leftPartitionStart || !leftPartitionEnd) {
-        leftPartitionStart = cur;
-        leftPartitionEnd = cur;
-      } else {
-        leftPartitionEnd.next = cur;
-        leftPartitionEnd = cur;
-      }
-    } else if (!rightPartitionStart || !rightPartitionEnd) {
-      rightPartitionStart = cur;
-      rightPartitionEnd = cur;
+      leftTail.next = cur;
+      leftTail = cur;
     } else {
-      rightPartitionEnd.next = cur;
-      rightPartitionEnd = cur;
+      rightTail.next = cur;
+      rightTail = cur;
     }
     cur = cur.next;
   }
 
-  if (leftPartitionEnd) leftPartitionEnd.next = rightPartitionStart;
-  if (rightPartitionEnd) rightPartitionEnd.next = null;
-  return leftPartitionStart ?? rightPartitionStart;
+  leftTail.next = rightDummy.next;
+  rightTail.next = null;
+
+  return leftDummy.next;
 }
