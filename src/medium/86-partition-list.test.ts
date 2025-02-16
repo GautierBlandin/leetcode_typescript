@@ -1,6 +1,5 @@
 import { ListNode } from '../common/ListNode';
-
-function partition(head: ListNode | null, x: number): ListNode | null {}
+import { partition } from './86-partition-list';
 
 describe('partition', () => {
   it('works on example 1', () => {
